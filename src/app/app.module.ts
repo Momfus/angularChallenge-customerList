@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { CustomerListComponent } from './pages/customer-list/customer-list.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { CustomerFormComponent } from './components/customer-form/customer-form.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     CustomerListComponent,
     HeaderComponent,
     NotFoundComponent,
+    CustomerFormComponent,
   ],
   imports: [
     BrowserModule,
