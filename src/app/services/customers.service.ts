@@ -50,7 +50,16 @@ export class CustomersService {
   }
 
   getCustomers(): Observable<Customer[]> {
-    return this.customers$;
+
+    // NOTE: the timeout is just for simulate the backend request
+    return new Observable( obs => {
+      setTimeout( () => {
+
+        obs.next( this.customers$.getValue() );
+        obs.complete();
+
+      }, 1000)
+    },);
   }
 
   getCustomerById(id: string): Observable<Customer | undefined> {
