@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, filter } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-import { Customer, statusType } from '../models/customer.model';
+import { Customer } from '../models/customer.model';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/reducers/index';
+import { initCustomerState } from '../store/actions/customer.actions';
 
 @Injectable({
   providedIn: 'root',
@@ -10,39 +13,8 @@ export class CustomersService {
   private customers$ = new BehaviorSubject<Customer[]>([]);
   private readonly LOCAL_STORAGE_KEY = 'customers'; // Just a helper, I use readonly because the object could change in runtime (in other case, i will use const)
 
-  constructor() {
-    let persistedCustomers: string | null = localStorage.getItem(
-      this.LOCAL_STORAGE_KEY
-    );
-
-    if (persistedCustomers) {
-      this.customers$.next(JSON.parse(persistedCustomers));
-    } else {
-      this.generateDummyCustomers();
-      persistedCustomers = JSON.stringify(this.customers$.value);
-    }
-  }
-
-  private generateDummyCustomers(): void {
-    const possibleStatuses: statusType[] = ['active', 'inactive', 'pending'];
-    const dummyCustomers: Customer[] = [];
-
-    for (let i = 1; i <= 20; i++) {
-      const randomIndex = Math.floor(Math.random() * 3);
-      const status = possibleStatuses[randomIndex];
-
-      dummyCustomers.push({
-        id: uuidv4(),
-        firstName: `John ${i}`,
-        lastName: `Doe ${i}`,
-        status: status,
-        email: `customer${i}@example.com`,
-        phone: `123-456-${i.toString().padStart(2, '0')}`,
-      });
-    }
-
-    this.customers$.next(dummyCustomers);
-    this.saveToLocalStorage(dummyCustomers);
+  constructor(private store: Store<AppState>) {
+    this.store.dispatch(initCustomerState());
   }
 
   private saveToLocalStorage(customers: Customer[]): void {
@@ -50,16 +22,10 @@ export class CustomersService {
   }
 
   getCustomers(): Observable<Customer[]> {
-
-    // NOTE: the timeout is just for simulate the backend request
-    return new Observable( obs => {
-      setTimeout( () => {
-
-        obs.next( this.customers$.getValue() );
-        obs.complete();
-
-      }, 1000)
-    },);
+    return new Observable((obs) => {
+      obs.next(this.customers$.getValue());
+      obs.complete();
+    });
   }
 
   getCustomerById(id: string): Observable<Customer | undefined> {
@@ -79,18 +45,19 @@ export class CustomersService {
   }
 
   updateCustomer(customer: Customer): void {
-    const customerWithUpdated: Customer[] = this.customers$.value.map(
-      cust => cust.id === customer.id ? customer : cust
-    )
+    const customerWithUpdated: Customer[] = this.customers$.value.map((cust) =>
+      cust.id === customer.id ? customer : cust
+    );
 
     this.customers$.next(customerWithUpdated);
     this.saveToLocalStorage(customerWithUpdated);
   }
 
-  deleteCustomer( id: string ): void {
-    const customerWithoutDeleted: Customer[] = this.customers$.value.filter( customer => customer.id !== id);
+  deleteCustomer(id: string): void {
+    const customerWithoutDeleted: Customer[] = this.customers$.value.filter(
+      (customer) => customer.id !== id
+    );
     this.customers$.next(customerWithoutDeleted);
-    this.saveToLocalStorage(customerWithoutDeleted)
+    this.saveToLocalStorage(customerWithoutDeleted);
   }
-
 }

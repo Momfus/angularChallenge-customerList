@@ -12,10 +12,10 @@ export class LoadingService {
 
   constructor() { }
 
-  setToLoad( value: boolean ) {
-
-    this.isLoading$.next(value);
-
+  setToLoad(value: boolean, delay: number = 0) {
+    setTimeout(() => {
+      this.isLoading$.next(value);
+    }, delay);
   }
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, mergeMap, map } from 'rxjs/operators';
-import { of, tap } from 'rxjs';
+import { catchError, mergeMap, map, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import * as CustomerActions from '../actions/customer.actions';
 import { CustomersService } from '../../services/customers.service';
@@ -17,18 +17,18 @@ export class CustomerEffects {
     this.actions$.pipe(
       ofType(CustomerActions.loadCustomers),
       mergeMap(() =>
-       { console.log('hola'); return this.customersService.getCustomers().pipe(
+       { return this.customersService.getCustomers().pipe(
           map((customers) =>
             CustomerActions.loadCustomersSuccess({ customers }),
           ),
-          tap(() => console.log('Customers loaded successfully,')),
           catchError((error) =>
             of(CustomerActions.loadCustomersFailure({ error: error.message }))
           )
         )}
 
       )
-    )
+    ),
+    { dispatch: false }
   );
 
 

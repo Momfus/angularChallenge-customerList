@@ -1,6 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import { Customer } from '../../models/customer.model';
 
+export const initCustomerState = createAction(
+  '[Customer API] Init Customer State'
+);
 
 // Load Customers
 export const loadCustomers = createAction(

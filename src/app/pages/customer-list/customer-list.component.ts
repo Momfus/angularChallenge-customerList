@@ -8,7 +8,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+
 import { LoadingService } from '../../services/loading.service';
+
+import { Observable, filter } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import { selectCustomers } from '../../store/selectors/customer.selectors';
+import { AppState } from '../../store/reducers/index';
+import { loadCustomers } from '../../store/actions/customer.actions';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-customer-list',
@@ -30,38 +38,42 @@ export class CustomerListComponent implements OnInit {
 
   dataSource!: MatTableDataSource<Customer>;
 
+  public customers$: Observable<Customer[]> | undefined;
+
   constructor(
-    private customersService: CustomersService,
     private loadingService: LoadingService,
     public dialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef
+    private store: Store<AppState>
   ) {}
 
   ngOnInit(): void {
 
-    setTimeout(() => {
-      this.setCustomerDataByService();
-      this.changeDetectorRefs.detectChanges();
-    });
+    this.setCustomerDataByService();
 
   }
 
   setCustomerDataByService(): void {
+
     this.loadingService.setToLoad(true);
 
-    this.customersService.getCustomers().subscribe((customers) => {
+    this.store.dispatch(loadCustomers());
+    this.customers$ = this.store.select(selectCustomers).pipe(
+      map((customers) => customers.filter((c) => c !== undefined) as Customer[])
+    );
+
+    this.customers$.subscribe((customers) => {
       this.dataSource = new MatTableDataSource(customers);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      console.log(this.dataSource);
 
       // Define the filter function to use only the lastName attribute
       this.dataSource.filterPredicate = (data: Customer, filter: string) => {
         return data.lastName.toLowerCase().includes(filter);
       };
 
-      this.loadingService.setToLoad(false);
-    });
+
+      this.loadingService.setToLoad(false, 1000); // Added a fake time loading to simulate http request
+    })
   }
 
   applyFilter(event: Event): void {

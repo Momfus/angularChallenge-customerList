@@ -13,7 +13,7 @@ export class AppComponent {
   isLoading$: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
   ){
     this.isLoading$ = this.loadingService.isLoading$;
   }
