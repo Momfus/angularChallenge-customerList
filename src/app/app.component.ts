@@ -16,6 +16,5 @@ export class AppComponent {
     private loadingService: LoadingService
   ){
     this.isLoading$ = this.loadingService.isLoading$;
-    // this.loadingService.setLoadingValue(true); // TODO delete
   }
 }

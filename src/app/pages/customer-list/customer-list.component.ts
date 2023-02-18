@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { Customer } from '../../models/customer.model';
 
@@ -33,11 +33,17 @@ export class CustomerListComponent implements OnInit {
   constructor(
     private customersService: CustomersService,
     private loadingService: LoadingService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private changeDetectorRefs: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.setCustomerDataByService();
+
+    setTimeout(() => {
+      this.setCustomerDataByService();
+      this.changeDetectorRefs.detectChanges();
+    });
+
   }
 
   setCustomerDataByService(): void {
