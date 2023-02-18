@@ -1,5 +1,5 @@
 import { ActionReducerMap } from '@ngrx/store';
-import { CustomerState, customerReducer } from './customer.reducer';
+import { CustomerState, customerReducer, adapter } from './customer.reducer';
 
 export interface AppState {
   customers: CustomerState;
@@ -8,3 +8,10 @@ export interface AppState {
 export const reducers: ActionReducerMap<AppState> = {
   customers: customerReducer
 };
+
+export const {
+  selectIds,
+  selectEntities,
+  selectAll,
+  selectTotal,
+} = adapter.getSelectors((state: AppState) => state.customers);

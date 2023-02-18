@@ -1,17 +1,8 @@
-import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
+
 import { Customer } from '../../models/customer.model';
-import { AppState } from '../reducers/index';
+import { CustomerState } from '../reducers/customer.reducer';
 
-export const selectCustomerState = createFeatureSelector<AppState, Customer[]>(
-  'customers'
-);
+const selectCustomerState: MemoizedSelector<object, CustomerState> = createFeatureSelector<CustomerState>('customers');
 
-export const selectAllCustomers = createSelector(
-  selectCustomerState,
-  (state: Customer[]) => state
-);
-
-export const selectCustomerById = (customerId: string) =>
-  createSelector(selectCustomerState, (state: Customer[]) =>
-    state.find((customer) => customer.id === customerId)
-  );
+export const selectCustomers = createSelector(selectCustomerState, (state: CustomerState) => Object.values(state.entities));
