@@ -1,9 +1,9 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 
 import { Customer } from '../../models/customer.model';
 
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatRow, MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
@@ -21,7 +21,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.css'],
 })
-export class CustomerListComponent implements OnInit {
+export class CustomerListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -31,10 +31,9 @@ export class CustomerListComponent implements OnInit {
     'email',
     'phone',
     'status',
-    'actions',
   ];
 
-  dataSource! : MatTableDataSource<Customer>;
+  dataSource!: MatTableDataSource<Customer>;
 
   public customers$: Observable<Customer[]> | undefined;
 
@@ -45,19 +44,25 @@ export class CustomerListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
-    this.setCustomerDataByService();
-
   }
 
-  setCustomerDataByService(): void {
+  ngAfterViewInit(): void {
+    setTimeout(() => { // Small fix for the expressionChanged error, so Angular finish the render and then change the Data
+      this.setCustomerData();
+    });
+  }
 
+  setCustomerData(): void {
     this.loadingService.setToLoad(true);
 
     this.store.dispatch(loadCustomers());
-    this.customers$ = this.store.select(selectCustomers).pipe(
-      map((customers) => customers.filter((c) => c !== undefined) as Customer[])
-    );
+    this.customers$ = this.store
+      .select(selectCustomers)
+      .pipe(
+        map(
+          (customers) => customers.filter((c) => c !== undefined) as Customer[]
+        )
+      );
 
     this.customers$.subscribe((customers) => {
       this.dataSource = new MatTableDataSource(customers);
@@ -69,9 +74,8 @@ export class CustomerListComponent implements OnInit {
         return data.lastName.toLowerCase().includes(filter);
       };
 
-
       this.loadingService.setToLoad(false, 1000); // Added a fake time loading to simulate http request
-    })
+    });
   }
 
   applyFilter(event: Event): void {
@@ -85,7 +89,14 @@ export class CustomerListComponent implements OnInit {
     console.log(this.dataSource);
   }
 
-  OnDialogCustomerCreate(): void {}
 
-  OnDialogCustomerEdit(customer: Customer): void {}
+
+  OnClikedCustomer(rowSelected: MatRow){
+    console.log(rowSelected);
+
+  }
+
+  dialogCustomerCreate(): void {}
+
+  dialogCustomerEdit(customer: Customer): void {}
 }

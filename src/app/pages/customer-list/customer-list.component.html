@@ -1,9 +1,6 @@
 
-
 <h2 class="title">Customers List</h2>
-<button mat-raised-button color="primary">
-  New Customer
-</button>
+<button mat-raised-button color="primary">New Customer</button>
 
 <div class="filter-container">
   <mat-form-field>
@@ -12,18 +9,22 @@
   </mat-form-field>
 </div>
 
-<mat-table [dataSource]="dataSource" matSort>
-container>
+<!-- Data table -->
+<table mat-table [dataSource]="dataSource" matSort>
 
   <!-- First Name Column -->
   <ng-container matColumnDef="firstName">
-    <mat-header-cell *matHeaderCellDef mat-sort-header>First name</mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header
+      >First name</mat-header-cell
+    >
     <mat-cell *matCellDef="let customer">{{ customer.firstName }}</mat-cell>
   </ng-container>
 
   <!-- Last Name column -->
   <ng-container matColumnDef="lastName">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      Last Name
+    </mat-header-cell>
     <mat-cell *matCellDef="let customer"> {{ customer.lastName }} </mat-cell>
   </ng-container>
 
@@ -40,18 +41,26 @@ container>
   </ng-container>
 
   <!-- Status Column -->
-   <ng-container matColumnDef="status">
-    <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      Status
+    </mat-header-cell>
     <mat-cell *matCellDef="let customer">
-       <span *ngIf="customer.status == 'active'" class="status-active">{{ customer.status }}</span>
-       <span *ngIf="customer.status == 'inactive'" class="status-inactive">{{ customer.status }}</span>
-       <span *ngIf="customer.status == 'pending'" class="status-inactive">{{ customer.status }}</span>
+      <span *ngIf="customer.status == 'active'" class="status-active">{{
+        customer.status
+      }}</span>
+      <span *ngIf="customer.status == 'inactive'" class="status-inactive">{{
+        customer.status
+      }}</span>
+      <span *ngIf="customer.status == 'pending'" class="status-inactive">{{
+        customer.status
+      }}</span>
     </mat-cell>
   </ng-container>
 
   <!-- Actions Column -->
-  <ng-container matColumnDef="actions">
-    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+  <!-- <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef sticky> Actions </mat-header-cell>
     <mat-cell *matCellDef="let customer">
       <button mat-icon-button color="primary" (click)="OnDialogCustomerEdit(customer)">
         <mat-icon>edit</mat-icon>
@@ -60,12 +69,17 @@ container>
         <mat-icon>delete</mat-icon>
       </button>
     </mat-cell>
-  </ng-container>
+  </ng-container> -->
 
   <mat-header-row *matHeaderRowDef="displatedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displatedColumns;"></mat-row>
+  <mat-row
+    mat-row
+    (click)="OnClikedCustomer(row)"
+    *matRowDef="let row; columns: displatedColumns"
+  ></mat-row>
+</table>
 
-</mat-table>
-
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
-
+<mat-paginator
+  [pageSizeOptions]="[5, 10, 25, 50]"
+  showFirstLastButtons
+></mat-paginator>
