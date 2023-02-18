@@ -1,8 +1,6 @@
-import { Component, ViewChild, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 
 import { Customer } from '../../models/customer.model';
-
-import { CustomersService } from '../../services/customers.service';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,8 +9,8 @@ import { MatSort } from '@angular/material/sort';
 
 import { LoadingService } from '../../services/loading.service';
 
-import { Observable, filter } from 'rxjs';
-import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { selectCustomers } from '../../store/selectors/customer.selectors';
 import { AppState } from '../../store/reducers/index';
 import { loadCustomers } from '../../store/actions/customer.actions';
@@ -36,7 +34,7 @@ export class CustomerListComponent implements OnInit {
     'actions',
   ];
 
-  dataSource!: MatTableDataSource<Customer>;
+  dataSource! : MatTableDataSource<Customer>;
 
   public customers$: Observable<Customer[]> | undefined;
 
