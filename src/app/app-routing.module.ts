@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { CustomerListComponent } from './pages/customer-list/customer-list.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/customer-list', pathMatch: 'full' },
-  { path: 'customer-list', component: CustomerListComponent },
+  { path: '', redirectTo: '/customers', pathMatch: 'full' },
+  { path: 'customers', component: CustomerListComponent },
   {
     path: 'not-found',
     component: NotFoundComponent,

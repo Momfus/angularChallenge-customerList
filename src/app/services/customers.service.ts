@@ -33,7 +33,7 @@ export class CustomersService {
 
       dummyCustomers.push({
         id: uuidv4(),
-        firstName: `Jhon ${i}`,
+        firstName: `John ${i}`,
         lastName: `Doe ${i}`,
         status: status,
         email: `customer${i}@example.com`,
