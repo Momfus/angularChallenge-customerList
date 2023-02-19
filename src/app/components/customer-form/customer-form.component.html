@@ -56,5 +56,6 @@
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="close()">Cancel</button>
-  <button mat-raised-button color="{{type === 'new' ? 'primary': 'accent'}}" [disabled]="form.invalid" (click)="createEditCustomer()">{{confirmButtonText}}</button>
+  <button *ngIf="type === 'new'"  mat-raised-button color="primary" [disabled]="form.invalid" (click)="createEditCustomer()">Create</button>
+  <button *ngIf="type === 'edit'"  mat-raised-button color="accent" [disabled]="form.invalid" (click)="createEditCustomer()">Edit</button>
 </mat-dialog-actions>
