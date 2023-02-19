@@ -11,7 +11,7 @@ import { statusType, Customer } from '../../models/customer.model';
 export class CustomerFormComponent {
   title: string = '';
   type: string = 'new';
-  confirmButtonText: string = 'Create';
+
   form!: FormGroup;
   statusOptions: { value: statusType; viewValue: string }[] = [
     { value: 'active', viewValue: 'Active' },
@@ -45,7 +45,7 @@ export class CustomerFormComponent {
 
       this.title = 'Edit Customer';
       this.type = 'edit';
-      this.confirmButtonText = 'Edit';
+
     } else {
       this.form = this.formBuilder.group({
         firstName: ['', Validators.required],
