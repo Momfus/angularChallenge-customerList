@@ -25,7 +25,7 @@ describe('CustomerFormComponent', () => {
         MatSelectModule,
         ReactiveFormsModule,
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
       ],
       providers: [
         { provide: MatDialogRef, useValue: {} },
