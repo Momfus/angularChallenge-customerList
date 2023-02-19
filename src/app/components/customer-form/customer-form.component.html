@@ -56,5 +56,5 @@
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="close()">Cancel</button>
-  <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="createEditCustomer()">Create</button>
+  <button mat-raised-button [color]="type === 'new' ? 'primary': 'accent'" [disabled]="form.invalid" (click)="createEditCustomer()">{{confirmButtonText}}</button>
 </mat-dialog-actions>
