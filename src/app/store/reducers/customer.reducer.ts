@@ -52,7 +52,7 @@ export const customerReducer = createReducer(
           lastName: `Doe ${i}`,
           status: status,
           email: `customer${i}@example.com`,
-          phone: `123-456-${i.toString().padStart(2, '0')}`,
+          phone: `+5426155555${i.toString().padStart(2, '0')}`,
         });
       }
       localStorage.setItem('customers', JSON.stringify(customers));

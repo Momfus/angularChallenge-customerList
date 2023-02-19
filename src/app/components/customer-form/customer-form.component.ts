@@ -11,6 +11,7 @@ import { statusType, Customer } from '../../models/customer.model';
 export class CustomerFormComponent {
   title: string = '';
   type: string = 'new';
+  confirmButtonText: string = 'Create';
   form!: FormGroup;
   statusOptions: { value: statusType; viewValue: string }[] = [
     { value: 'active', viewValue: 'Active' },
@@ -32,12 +33,19 @@ export class CustomerFormComponent {
         status: [this.customer.status, Validators.required],
         email: [this.customer.email, [Validators.required, Validators.email]],
         // Note: I know there are better ways to validate a correct phone number with a API wich gave me all the countary code numbers and limitation, is not the propurse of this challenge
-        phone: [this.customer.phone, [Validators.pattern(/^\+?\d{1,3}\s?\-?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
+        phone: [
+          this.customer.phone,
+          [
+            Validators.pattern(
+              /^\+?\d{1,3}\s?\-?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
+            ),
+          ],
+        ],
       });
 
-      this.title = "Edit Customer";
+      this.title = 'Edit Customer';
       this.type = 'edit';
-
+      this.confirmButtonText = 'Edit';
     } else {
       this.form = this.formBuilder.group({
         firstName: ['', Validators.required],
@@ -45,7 +53,14 @@ export class CustomerFormComponent {
         status: ['active', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         // Note: I know there are better ways to validate a correct phone number with a API wich gave me all the countary code numbers and limitation, is not the propurse of this challenge
-        phone: ['', [Validators.pattern(/^\+?\d{1,3}\s?\-?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
+        phone: [
+          '',
+          [
+            Validators.pattern(
+              /^\+?\d{1,3}\s?\-?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/
+            ),
+          ],
+        ],
       });
 
       this.title = 'Add Customer';
@@ -67,13 +82,13 @@ export class CustomerFormComponent {
         phone: this.form.value.phone,
       };
 
-      this.dialogRef.close({customer, type: this.type});
+      this.dialogRef.close({ customer, type: this.type });
     }
   }
 
   onDeleteCustomer() {
     this.type = 'delete';
 
-    this.dialogRef.close({customer: this.customer, type: this.type});
+    this.dialogRef.close({ customer: this.customer, type: this.type });
   }
 }
