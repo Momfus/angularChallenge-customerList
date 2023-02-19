@@ -119,6 +119,9 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
       };
 
       this.loadingService.setToLoad(false, 1000); // Added a fake time loading to simulate http request
+
+
+      console.log(this.dataSource)
     });
   }
 
@@ -161,7 +164,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
 
         } else { // delete
 
-          console.log(customer)
           this.store.dispatch(deleteCustomer({customerId: customer.id}));
           this.snackBar.open(`Customer "${customer.firstName} ${customer.lastName}" deleted`, 'Close', {
             duration: 2000,

@@ -41,3 +41,10 @@ th {
   font-size: 14px;
   width: 100%;
 }
+
+/* Others */
+.no-data {
+  display: flex;
+  justify-content: center;
+  margin: 2em;
+}
