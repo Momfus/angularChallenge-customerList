@@ -42,7 +42,7 @@ export const customerReducer = createReducer(
 
     if (!storedCustomers) {
       const possibleStatuses: statusType[] = ['active', 'inactive', 'pending'];
-      for (let i = 1; i <= 1; i++) {
+      for (let i = 1; i <= 20; i++) {
         const randomIndex = Math.floor(Math.random() * 3);
         const status = possibleStatuses[randomIndex];
 
