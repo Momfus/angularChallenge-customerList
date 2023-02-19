@@ -11,3 +11,14 @@ mat-dialog-content {
   justify-content: center;
   flex-direction: column;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 1em;
+}
+
+.text-right {
+  text-align: right;
+}

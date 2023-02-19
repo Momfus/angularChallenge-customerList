@@ -13,9 +13,11 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectCustomers } from '../../store/selectors/customer.selectors';
 import { AppState } from '../../store/reducers/index';
-import { loadCustomers } from '../../store/actions/customer.actions';
+import { loadCustomers, updateCustomer } from '../../store/actions/customer.actions';
 import { map } from 'rxjs/operators';
 import { CustomersService } from '../../services/customers.service';
+import { CustomerFormComponent } from '../../components/customer-form/customer-form.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-customer-list',
@@ -46,11 +48,14 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
   public customers$: Observable<Customer[]> | undefined;
   customerChangesSubscription!: Subscription;
 
+  filerValueByLastName: string = '';
+
   constructor(
     private loadingService: LoadingService,
     public dialog: MatDialog,
     private store: Store<AppState>,
-    private customersService: CustomersService
+    private customersService: CustomersService,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -87,6 +92,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setCustomerData(): void {
     this.loadingService.setToLoad(true);
+    this.filerValueByLastName = '';
 
     this.store.dispatch(loadCustomers());
     this.customers$ = this.store
@@ -116,9 +122,9 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLocaleLowerCase();
+  applyFilter(): void {
+
+    this.dataSource.filter = this.filerValueByLastName.trim().toLocaleLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
@@ -129,17 +135,40 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
   onPageChange( event: PageEvent ) {
     setTimeout(() =>
     window.scrollTo({ top: 0, behavior: 'smooth' }), 0);
-
-    console.log(event)
   }
 
-  onClikedCustomer(rowSelected: MatRow){
-    console.log(rowSelected);
+  onClikedCustomer(rowSelected: Customer){
+
+    const dialogRef = this.dialog.open( CustomerFormComponent, {
+      width: '400px',
+      data: rowSelected
+    });
+
+    dialogRef.afterClosed().subscribe((result: {customer: Customer, type: string}) => {
+
+      if( result ) {
+
+        const customer = result.customer;
+
+        if( result.type = 'edit' ) {
+          console.log(result.customer)
+
+          this.store.dispatch(updateCustomer({customer}));
+          this.snackBar.open(`Customer "${customer.firstName} ${customer.lastName}" created`, 'Close', {
+            duration: 2000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+          });
+
+        } else { // delete
+
+        }
+
+      }
+
+    });
 
   }
-
-
-  dialogCustomerEdit(customer: Customer): void {}
 
 
   ngOnDestroy(): void {

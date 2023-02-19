@@ -1,4 +1,7 @@
-<h2 mat-dialog-title>Add Customer</h2>
+<div mat-dialog-title class="header">
+  <h2 style="flex-grow: 1;">{{title}}</h2>
+  <button *ngIf="type === 'edit'" mat-raised-button color="warn" class="text-right">Delete</button>
+</div>
 
 <mat-dialog-content [formGroup]="form">
   <mat-form-field appearance="fill">

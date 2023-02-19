@@ -2,7 +2,7 @@
 <div class="filter-container">
   <mat-form-field>
     <mat-label>Filter by Last Name</mat-label>
-    <input matInput (keyup)="applyFilter($event)" placeholder="Example: Doe" />
+    <input matInput [(ngModel)]="filerValueByLastName" (keyup)="applyFilter()" placeholder="Example: Doe" />
   </mat-form-field>
 </div>
 
@@ -44,7 +44,7 @@
     <!-- Phone -->
     <ng-container matColumnDef="phone">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
-      <td mat-cell *matCellDef="let customer">{{ customer.phone }}</td>
+      <td mat-cell *matCellDef="let customer">{{ customer.phone ? customer.phone : 'No phone number' }}</td>
     </ng-container>
 
     <!-- Status -->
