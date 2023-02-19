@@ -38,9 +38,9 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns: string[] = [
     'firstName',
     'lastName',
+    'status',
     'email',
     'phone',
-    'status',
   ];
 
   dataSource!: MatTableDataSource<Customer>;
@@ -118,10 +118,8 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
         return data.lastName.toLowerCase().includes(filter);
       };
 
-      this.loadingService.setToLoad(false, 1000); // Added a fake time loading to simulate http request
+      this.loadingService.setToLoad(false, 1000); // Added to fake time loading to simulate http request
 
-
-      console.log(this.dataSource)
     });
   }
 

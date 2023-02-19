@@ -1,12 +1,29 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from 'src/app/store/reducers';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { RouterModule } from '@angular/router';
+import { FooterComponent } from './shared/footer/footer.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        HeaderComponent,
+        FooterComponent
       ],
+      providers: [MatSnackBar],
+      imports: [
+        MatDialogModule,
+        StoreModule.forRoot(reducers),
+        RouterModule,
+        MatToolbarModule
+      ]
     }).compileComponents();
   });
 
@@ -22,10 +39,4 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('challenge-customerList');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('challenge-customerList app is running!');
-  });
 });
