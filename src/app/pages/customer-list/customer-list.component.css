@@ -1,7 +1,31 @@
-table {
+
+
+/* Main table style */
+.table-container {
+  max-height: 800px;
   width: 100%;
+  overflow: auto;
 }
 
+
+table {
+  width: 800px;
+}
+
+td.mat-column-star {
+  width: 20px;
+  padding-right: 8px;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+
+/* Mouse over customer stly */
 .mat-mdc-row .mat-mdc-cell {
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
@@ -11,3 +35,4 @@ table {
 .mat-mdc-row:hover .mat-mdc-cell {
   border-color: currentColor;
 }
+

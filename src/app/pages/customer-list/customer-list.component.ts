@@ -1,15 +1,15 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 
 import { Customer } from '../../models/customer.model';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatRow, MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
 import { LoadingService } from '../../services/loading.service';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectCustomers } from '../../store/selectors/customer.selectors';
 import { AppState } from '../../store/reducers/index';
@@ -21,11 +21,18 @@ import { map } from 'rxjs/operators';
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.css'],
 })
-export class CustomerListComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('paginatorTop') paginatorTop!: MatPaginator;
+  @ViewChild('paginatorBottom') paginatorBottom!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  displatedColumns: string[] = [
+  pageSize = 5;
+  pageSizeOptions: number[] = [5, 10, 25, 50];
+
+  private topPaginatorSubscription!: Subscription;
+  private bottomPaginatorSubscription!: Subscription;
+
+  displayedColumns: string[] = [
     'firstName',
     'lastName',
     'email',
@@ -47,8 +54,26 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
+    this.setPaginationChanges();
     setTimeout(() => { // Small fix for the expressionChanged error, so Angular finish the render and then change the Data
       this.setCustomerData();
+    });
+  }
+
+  setPaginationChanges() {
+    this.topPaginatorSubscription = this.paginatorTop.page.subscribe(() => {
+      this.paginatorBottom.pageIndex = this.paginatorTop.pageIndex;
+      this.paginatorBottom.pageSize = this.paginatorTop.pageSize;
+      this.paginatorBottom.length = this.paginatorTop.length;
+      this.dataSource.paginator = this.paginatorTop;
+    });
+
+    this.bottomPaginatorSubscription = this.paginatorBottom.page.subscribe(() => {
+      this.paginatorTop.pageIndex = this.paginatorBottom.pageIndex;
+      this.paginatorTop.pageSize = this.paginatorBottom.pageSize;
+      this.paginatorTop.length = this.paginatorBottom.length;
+      this.dataSource.paginator = this.paginatorBottom;
     });
   }
 
@@ -66,8 +91,13 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
 
     this.customers$.subscribe((customers) => {
       this.dataSource = new MatTableDataSource(customers);
-      this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+
+
+      this.paginatorTop.length = customers.length;
+      this.paginatorBottom.length = this.paginatorTop.length;
+
+      this.dataSource.paginator = this.paginatorTop;
 
       // Define the filter function to use only the lastName attribute
       this.dataSource.filterPredicate = (data: Customer, filter: string) => {
@@ -89,9 +119,14 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
     console.log(this.dataSource);
   }
 
+  onPageChange( event: PageEvent ) {
+    setTimeout(() =>
+    window.scrollTo({ top: 0, behavior: 'smooth' }), 0);
 
+    console.log(event)
+  }
 
-  OnClikedCustomer(rowSelected: MatRow){
+  onClikedCustomer(rowSelected: MatRow){
     console.log(rowSelected);
 
   }
@@ -99,4 +134,10 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   dialogCustomerCreate(): void {}
 
   dialogCustomerEdit(customer: Customer): void {}
+
+
+  ngOnDestroy(): void {
+    this.topPaginatorSubscription.unsubscribe();
+    this.bottomPaginatorSubscription.unsubscribe();
+  }
 }
