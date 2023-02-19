@@ -1,5 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { StoreModule } from '@ngrx/store';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { HeaderComponent } from './header.component';
 
 describe('HeaderComponent', () => {
@@ -8,13 +11,15 @@ describe('HeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ HeaderComponent ]
-    })
-    .compileComponents();
+      declarations: [HeaderComponent],
+      providers: [MatSnackBar],
+      imports: [MatDialogModule, MatToolbarModule, StoreModule.forRoot({})],
+    }).compileComponents();
+  });
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

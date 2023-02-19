@@ -1,5 +1,5 @@
 <div class="main-page">
-  <app-header></app-header>
+  <app-header [title]="title"></app-header>
 
   <ng-container *ngIf="isLoading$ | async">
     <div class="spinner-overlay">

@@ -1,12 +1,9 @@
-
-
 /* Main table style */
 .table-container {
   max-height: 55vh;
   width: 100%;
   overflow: auto;
 }
-
 
 table {
   width: 800px;
@@ -24,7 +21,6 @@ th {
   z-index: 1;
 }
 
-
 /* Mouse over customer stly */
 .mat-mdc-row .mat-mdc-cell {
   border-bottom: 1px solid transparent;
@@ -35,7 +31,6 @@ th {
 .mat-mdc-row:hover .mat-mdc-cell {
   border-color: currentColor;
 }
-
 
 .filter-container .mat-mdc-form-field {
   font-size: 14px;
