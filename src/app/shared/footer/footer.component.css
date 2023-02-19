@@ -1,0 +1,10 @@
+
+mat-toolbar {
+  display: flex;
+  justify-content: center;
+}
+
+a {
+  margin-left: 0.2em;
+  font-size: 1.25rem;
+}

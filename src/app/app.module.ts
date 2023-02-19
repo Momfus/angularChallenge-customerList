@@ -18,6 +18,7 @@ import { CustomerListComponent } from './pages/customer-list/customer-list.compo
 import { HeaderComponent } from './shared/header/header.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CustomerFormComponent } from './components/customer-form/customer-form.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { CustomerFormComponent } from './components/customer-form/customer-form.
     HeaderComponent,
     NotFoundComponent,
     CustomerFormComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

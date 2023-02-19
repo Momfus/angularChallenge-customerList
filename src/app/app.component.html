@@ -1,11 +1,17 @@
-<app-header></app-header>
+<div class="main-page">
+  <app-header></app-header>
 
-<ng-container *ngIf="isLoading$ | async">
-  <div  class="spinner-overlay">
-    <mat-spinner></mat-spinner>
+  <ng-container *ngIf="isLoading$ | async">
+    <div class="spinner-overlay">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
+
+  <div class=" container flex-grow-complete">
+    <router-outlet></router-outlet>
   </div>
-</ng-container>
 
-<div class="container">
-  <router-outlet></router-outlet>
+  <div class="footer">
+    <app-footer></app-footer>
+  </div>
 </div>

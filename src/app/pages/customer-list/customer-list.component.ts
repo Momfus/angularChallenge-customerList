@@ -93,7 +93,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dataSource = new MatTableDataSource(customers);
       this.dataSource.sort = this.sort;
 
-
       this.paginatorTop.length = customers.length;
       this.paginatorBottom.length = this.paginatorTop.length;
 
@@ -116,7 +115,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
 
-    console.log(this.dataSource);
   }
 
   onPageChange( event: PageEvent ) {

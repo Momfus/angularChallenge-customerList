@@ -2,7 +2,7 @@
 
 /* Main table style */
 .table-container {
-  max-height: 800px;
+  max-height: 55vh;
   width: 100%;
   overflow: auto;
 }
@@ -36,3 +36,8 @@ th {
   border-color: currentColor;
 }
 
+
+.filter-container .mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}

@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -8,12 +12,16 @@ body {
   color: white;
 }
 
+app-root {
+  display: block;
+  height: 100%;
+}
+
 .container {
-  margin: 20px
+  margin: 20px;
 }
 
 .spinner-overlay {
-
   /* background */
   position: fixed;
   top: 0;
@@ -28,4 +36,3 @@ body {
   justify-content: center;
   align-items: center;
 }
-
