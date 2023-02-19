@@ -33,10 +33,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'challenge-customerList'`, () => {
+  it(`should have as title 'Customer List Challenge'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('challenge-customerList');
+    expect(app.title).toEqual('Customer List Challenge');
   });
 
 });
