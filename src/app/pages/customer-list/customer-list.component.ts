@@ -15,6 +15,7 @@ import { selectCustomers } from '../../store/selectors/customer.selectors';
 import { AppState } from '../../store/reducers/index';
 import { loadCustomers } from '../../store/actions/customer.actions';
 import { map } from 'rxjs/operators';
+import { CustomersService } from '../../services/customers.service';
 
 @Component({
   selector: 'app-customer-list',
@@ -43,14 +44,21 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
   dataSource!: MatTableDataSource<Customer>;
 
   public customers$: Observable<Customer[]> | undefined;
+  customerChangesSubscription!: Subscription;
 
   constructor(
     private loadingService: LoadingService,
     public dialog: MatDialog,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private customersService: CustomersService
   ) {}
 
   ngOnInit(): void {
+
+    this.customerChangesSubscription = this.customersService.customerChanges.subscribe(( cust: Customer ) => {
+      this.setCustomerData();
+    });
+
   }
 
   ngAfterViewInit(): void {
@@ -88,6 +96,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
           (customers) => customers.filter((c) => c !== undefined) as Customer[]
         )
       );
+
 
     this.customers$.subscribe((customers) => {
       this.dataSource = new MatTableDataSource(customers);
@@ -129,7 +138,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  dialogCustomerCreate(): void {}
 
   dialogCustomerEdit(customer: Customer): void {}
 
@@ -137,5 +145,6 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.topPaginatorSubscription.unsubscribe();
     this.bottomPaginatorSubscription.unsubscribe();
+    this.customerChangesSubscription.unsubscribe();
   }
 }

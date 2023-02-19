@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularMaterialModule } from './modules/angular-material.module';
 
 import { StoreModule } from '@ngrx/store';
@@ -36,6 +36,7 @@ import { FooterComponent } from './shared/footer/footer.component';
     HttpClientModule,
     AngularMaterialModule,
     AppRoutingModule,
+    ReactiveFormsModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([CustomerEffects]),
     StoreDevtoolsModule.instrument(),

@@ -3,9 +3,9 @@ import { EntityState, createEntityAdapter, EntityAdapter } from '@ngrx/entity';
 import * as CustomerActions from '../actions/customer.actions';
 import { Customer, statusType } from '../../models/customer.model';
 import { v4 as uuidv4 } from 'uuid';
-
 export interface CustomerState extends EntityState<Customer> {
   selectedCustomerId: string | null;
+  ids: string[];
 }
 
 export const adapter: EntityAdapter<Customer> = createEntityAdapter<Customer>({
@@ -15,14 +15,18 @@ export const adapter: EntityAdapter<Customer> = createEntityAdapter<Customer>({
 
 export const initialCustomerState: CustomerState = adapter.getInitialState({
   selectedCustomerId: null,
+  ids: [],
+  customerList: []
 });
+
+
 
 export const customerReducer = createReducer(
   initialCustomerState,
 
   on(CustomerActions.loadCustomersSuccess, (state, { customers }) =>
-    adapter.setAll(customers, state)
-  ),
+  adapter.setAll(customers, { ...state, ids: customers.map(c => c.id) })
+),
   on(CustomerActions.addCustomerSuccess, (state, { customer }) =>
     adapter.addOne(customer, state)
   ),
@@ -38,7 +42,7 @@ export const customerReducer = createReducer(
 
     if (!storedCustomers) {
       const possibleStatuses: statusType[] = ['active', 'inactive', 'pending'];
-      for (let i = 1; i <= 20; i++) {
+      for (let i = 1; i <= 3; i++) {
         const randomIndex = Math.floor(Math.random() * 3);
         const status = possibleStatuses[randomIndex];
 

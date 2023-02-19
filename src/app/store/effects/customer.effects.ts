@@ -28,7 +28,7 @@ export class CustomerEffects {
 
       )
     ),
-    { dispatch: false }
+    { dispatch: true }
   );
 
 
@@ -49,6 +49,7 @@ export class CustomerEffects {
       ),
     { dispatch: false }
   );
+
 
   deleteCustomer$ = createEffect(
     () =>

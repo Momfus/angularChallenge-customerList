@@ -1,0 +1,13 @@
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  margin-right: 10px;
+}
+
+mat-dialog-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}

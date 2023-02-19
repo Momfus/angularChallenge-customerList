@@ -11,6 +11,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [],
@@ -26,7 +28,9 @@ import { MatSortModule } from '@angular/material/sort';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   exports: [
     MatSnackBarModule,
@@ -39,7 +43,9 @@ import { MatSortModule } from '@angular/material/sort';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatOptionModule,
+    MatSelectModule
   ],
 })
 export class AngularMaterialModule {}
