@@ -1,6 +1,7 @@
 <div mat-dialog-title class="header">
   <h2 style="flex-grow: 1;">{{title}}</h2>
-  <button *ngIf="type === 'edit'" mat-raised-button color="warn" class="text-right">Delete</button>
+  <button *ngIf="type === 'edit'" mat-raised-button color="warn" class="text-right"
+  (click)="onDeleteCustomer()">Delete</button>
 </div>
 
 <mat-dialog-content [formGroup]="form">
@@ -45,12 +46,15 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Phone</mat-label>
-    <input matInput formControlName="phone" />
+    <input type="tel" matInput formControlName="phone" />
+    <mat-error *ngIf="form.controls['phone'].hasError('pattern')">
+      Invalid phone number (e.g. +1-123-456-7890).
+    </mat-error>
   </mat-form-field>
 
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="close()">Cancel</button>
-  <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="createCustomer()">Create</button>
+  <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="createEditCustomer()">Create</button>
 </mat-dialog-actions>

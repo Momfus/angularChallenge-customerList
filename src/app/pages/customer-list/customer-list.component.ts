@@ -13,7 +13,7 @@ import { Observable, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectCustomers } from '../../store/selectors/customer.selectors';
 import { AppState } from '../../store/reducers/index';
-import { loadCustomers, updateCustomer } from '../../store/actions/customer.actions';
+import { loadCustomers, updateCustomer, deleteCustomer } from '../../store/actions/customer.actions';
 import { map } from 'rxjs/operators';
 import { CustomersService } from '../../services/customers.service';
 import { CustomerFormComponent } from '../../components/customer-form/customer-form.component';
@@ -150,11 +150,10 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
 
         const customer = result.customer;
 
-        if( result.type = 'edit' ) {
-          console.log(result.customer)
+        if( result.type === 'edit' ) {
 
           this.store.dispatch(updateCustomer({customer}));
-          this.snackBar.open(`Customer "${customer.firstName} ${customer.lastName}" created`, 'Close', {
+          this.snackBar.open(`Customer "${customer.firstName} ${customer.lastName}" updated`, 'Close', {
             duration: 2000,
             horizontalPosition: 'center',
             verticalPosition: 'bottom',
@@ -162,6 +161,13 @@ export class CustomerListComponent implements OnInit, AfterViewInit, OnDestroy {
 
         } else { // delete
 
+          console.log(customer)
+          this.store.dispatch(deleteCustomer({customerId: customer.id}));
+          this.snackBar.open(`Customer "${customer.firstName} ${customer.lastName}" deleted`, 'Close', {
+            duration: 2000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+          });
         }
 
       }

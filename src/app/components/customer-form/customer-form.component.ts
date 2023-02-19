@@ -31,7 +31,8 @@ export class CustomerFormComponent {
         lastName: [this.customer.lastName, Validators.required],
         status: [this.customer.status, Validators.required],
         email: [this.customer.email, [Validators.required, Validators.email]],
-        phone: [this.customer.phone],
+        // Note: I know there are better ways to validate a correct phone number with a API wich gave me all the countary code numbers and limitation, is not the propurse of this challenge
+        phone: [this.customer.phone, [Validators.pattern(/^\+?\d{1,3}\s?\-?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
       });
 
       this.title = "Edit Customer";
@@ -43,7 +44,8 @@ export class CustomerFormComponent {
         lastName: ['', Validators.required],
         status: ['active', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        phone: [''],
+        // Note: I know there are better ways to validate a correct phone number with a API wich gave me all the countary code numbers and limitation, is not the propurse of this challenge
+        phone: ['', [Validators.pattern(/^\+?\d{1,3}\s?\-?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)]],
       });
 
       this.title = 'Add Customer';
@@ -54,7 +56,7 @@ export class CustomerFormComponent {
     this.dialogRef.close();
   }
 
-  createCustomer() {
+  createEditCustomer() {
     if (this.form.valid) {
       const customer: Customer = {
         id: (this.customer && this.customer.id) || '',
@@ -67,5 +69,11 @@ export class CustomerFormComponent {
 
       this.dialogRef.close({customer, type: this.type});
     }
+  }
+
+  onDeleteCustomer() {
+    this.type = 'delete';
+
+    this.dialogRef.close({customer: this.customer, type: this.type});
   }
 }
