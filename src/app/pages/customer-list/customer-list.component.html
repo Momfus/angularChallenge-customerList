@@ -1,0 +1,93 @@
+
+
+
+  <div class="filter-container">
+    <mat-form-field>
+      <mat-label>Filter by Last Name</mat-label>
+      <input matInput [(ngModel)]="filerValueByLastName" (keyup)="applyFilter()" placeholder="Example: Doe" />
+    </mat-form-field>
+  </div>
+
+  <!-- Data table -->
+  <mat-paginator
+    #paginatorTop
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)"
+    showFirstLastButtons
+  ></mat-paginator>
+
+
+  <section class="table-container mat-elevation-z8" tabindex="0">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      mat-table-responsive="true"
+      class="mat-table-sticky"
+    >
+      <!-- First Name  -->
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>First name</th>
+        <td mat-cell *matCellDef="let customer">{{ customer.firstName }}</td>
+      </ng-container>
+
+      <!-- last Name -->
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+        <td mat-cell *matCellDef="let customer">{{ customer.lastName }}</td>
+      </ng-container>
+
+      <!-- Email -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+        <td mat-cell *matCellDef="let customer">{{ customer.email }}</td>
+      </ng-container>
+
+      <!-- Phone -->
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+        <td mat-cell *matCellDef="let customer">{{ customer.phone ? customer.phone : 'No phone number' }}</td>
+      </ng-container>
+
+      <!-- Status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let customer">
+          <span *ngIf="customer.status == 'active'" class="status-active">{{
+            customer.status | titlecase
+          }}</span>
+          <span *ngIf="customer.status == 'inactive'" class="status-inactive">{{
+            customer.status | titlecase
+          }}</span>
+          <span *ngIf="customer.status == 'pending'" class="status-inactive">{{
+            customer.status | titlecase
+          }}</span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        (click)="onClikedCustomer(row)"
+        *matRowDef="let row; columns: displayedColumns"
+      ></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="12">
+          <div class="no-data">
+            <h2>No records found</h2>
+          </div>
+        </td>
+      </tr>
+
+    </table>
+
+  </section>
+
+  <mat-paginator
+    #paginatorBottom
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)"
+    showFirstLastButtons
+  ></mat-paginator>
+
+<br>

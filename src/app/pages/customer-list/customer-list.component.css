@@ -1,0 +1,50 @@
+
+
+/* Main table style */
+.table-container {
+  max-height: 55vh;
+  width: 100%;
+  overflow: auto;
+}
+
+
+table {
+  width: 800px;
+}
+
+td.mat-column-star {
+  width: 20px;
+  padding-right: 8px;
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 1;
+}
+
+
+/* Mouse over customer stly */
+.mat-mdc-row .mat-mdc-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: currentColor;
+}
+
+
+.filter-container .mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Others */
+.no-data {
+  display: flex;
+  justify-content: center;
+  margin: 2em;
+}

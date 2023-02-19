@@ -1,0 +1,19 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.main-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.flex-grow-complete{
+  flex-grow: 1;
+}
+
+.footer {
+
+  bottom: 0;
+}

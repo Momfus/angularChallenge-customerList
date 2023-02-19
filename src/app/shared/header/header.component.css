@@ -1,0 +1,8 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+
+.title {
+  font-size: clamp(12pt, calc(1.5vw + 2pt), 20pt);
+}

@@ -1,0 +1,60 @@
+<div mat-dialog-title class="header">
+  <h2 style="flex-grow: 1;">{{title}}</h2>
+  <button *ngIf="type === 'edit'" mat-raised-button color="warn" class="text-right"
+  (click)="onDeleteCustomer()">Delete</button>
+</div>
+
+<mat-dialog-content [formGroup]="form">
+  <mat-form-field appearance="fill">
+    <mat-label>First Name</mat-label>
+    <input matInput formControlName="firstName" />
+    <mat-error *ngIf="form.controls['firstName'].hasError('required')">
+      First Name is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Last Name</mat-label>
+    <input matInput formControlName="lastName" />
+    <mat-error *ngIf="form.controls['lastName'].hasError('required')">
+      Last Name is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option *ngFor="let option of statusOptions" [value]="option.value">{{
+        option.viewValue
+      }}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.controls['status'].hasError('required')">
+      Status is required.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" />
+    <mat-error *ngIf="form.controls['email'].hasError('required')">
+      Email is required.
+    </mat-error>
+    <mat-error *ngIf="form.controls['email'].hasError('email')">
+      Invalid email.
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Phone</mat-label>
+    <input type="tel" matInput formControlName="phone" />
+    <mat-error *ngIf="form.controls['phone'].hasError('pattern')">
+      Invalid phone number (e.g. +1-123-456-7890).
+    </mat-error>
+  </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-raised-button color="accent" [disabled]="form.invalid" (click)="createEditCustomer()">Create</button>
+</mat-dialog-actions>
